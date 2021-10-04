@@ -19,7 +19,14 @@ const questions = ["What is the title of your project?",
 "Please provide a link to your project:"];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) =>{
+        if(err){
+            throw err;
+        }
+        console.log("Information saved to README!")
+    });
+};
 
 // TODO: Create a function to initialize app
 function init() {
@@ -174,7 +181,13 @@ function init() {
             }
         }
     }
-])}
+])
+    inquirer.prompt(questions)
+    .then(function(userInput){
+        console.log(userInput);
+        writeToFile("README.md", generateMarkdown(userInput));
+    });
+};
 
 // Function call to initialize app
 init();
