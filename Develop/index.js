@@ -4,19 +4,19 @@ const fs = require('fs');
 const generateMarkdown = require('./utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
-const questions = ["What is the title of your project? ", 
-"What is your GitHub Username? ",
-"What is your email address? ",
-"What is your project and what problem will it solve? ",
-"Why did you create this project? ",
-"How will someone use your project? ",
+const questions = ["What is the title of your project?", 
+"What is your github Username?",
+"What is your email address?",
+"What is your project and what problem will it solve?",
+"Why did you create this project?",
+"How will someone use your project?",
 "Please provide step-by-step installation instructions for your project.",
 "Please provide examples for use.",
-"Which license will you use for your project? ",
-"Would you like to allow other developers to contribute? ",
-"Please provide guidelines for contributing. ",
-"Please provide instructions on how to test the app. ",
-"Please provide a link to your project: "];
+"Which license will you use for your project?",
+"Would you like to allow other developers to contribute?",
+"Please provide guidelines for contributing.",
+"Please provide instructions on how to test the app.",
+"Please provide a link to your project:"];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
@@ -24,7 +24,7 @@ function writeToFile(fileName, data) {}
 // TODO: Create a function to initialize app
 function init() {
     const [title, username, email, solveProblem, whyCreate, howToUse, 
-    installInstruct, examples, license, contribute, tests, 
+    installInstruct, examples, license, confirm, contributors, tests, 
     linkToProject] = questions;
 
     return inquirer.prompt([{
@@ -32,23 +32,23 @@ function init() {
         name: "title",
         message: title,
         validate: titleInput => {
-            if(){
+            if(titleInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please enter the title of your project.");
                 return false;
             }
         }
     },
     {
         type: "input",
-        name: "gitHubUsername",
+        name: "githubUsername",
         message: username,
-        validate: gitHubUsernameInput => {
-            if(){
+        validate: githubUsernameInput => {
+            if(githubUsernameInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please enter your github username.");
                 return false;
             }
         }
@@ -58,10 +58,10 @@ function init() {
         name: "gitHubEmail",
         message: email,
         validate: gitHubEmailInput => {
-            if(){
+            if(gitHubEmailInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please enter your email address.");
                 return false;
             }
         }
@@ -71,10 +71,10 @@ function init() {
         name: "solveWhatProblem",
         message: solveProblem,
         validate: solveWhatProblemInput => {
-            if(){
+            if(solveWhatProblemInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please enter details regarding what your project is.");
                 return false;
             }
         }
@@ -84,10 +84,10 @@ function init() {
         name: "create",
         message: whyCreate,
         validate: createInput => {
-            if(){
+            if(createInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please provide a description of why you made this project.");
                 return false;
             }
         }
@@ -97,10 +97,10 @@ function init() {
         name: "howTo",
         message: howToUse,
         validate: howToInput => {
-            if(){
+            if(howToInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please provide information on how someone would use your project.");
                 return false;
             }
         }
@@ -110,10 +110,10 @@ function init() {
         name: "install",
         message: installInstruct,
         validate: installInput => {
-            if(){
+            if(installInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please list step by step instructions on how to install your project.");
                 return false;
             }
         }
@@ -123,10 +123,10 @@ function init() {
         name: "example",
         message: examples,
         validate: exampleInput => {
-            if(){
+            if(exampleInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please provide instructions and examples for use.");
                 return false;
             }
         }
@@ -135,37 +135,28 @@ function init() {
         type: "input",
         name: "licenses",
         message: license,
-        validate: licensesInput => {
-            if(){
-                return true;
-            }else{
-                console.log("");
-                return false;
-            }
-        }
+        choices: ["agpl", "apache", "mit", "no license"] 
     },
     {
         type: "input",
-        name: "contributors",
-        message: contribute,
-        validate: contributorsInput => {
-            if(){
-                return true;
-            }else{
-                console.log("");
-                return false;
-            }
-        }
+        name: "confirm",
+        message: confirm,
+        default: true
+    },
+    {
+        type: "input",
+        name: "contributorGuidelines",
+        message: contributors,
     },
     {
         type: "input",
         name: "test",
         message: tests,
         validate: testInput => {
-            if(){
+            if(testInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please enter instructions for running tests.");
                 return false;
             }
         }
@@ -175,10 +166,10 @@ function init() {
         name: "link",
         message: linkToProject,
         validate: linkInput => {
-            if(){
+            if(linkInput){
                 return true;
             }else{
-                console.log("");
+                console.log("Please provide a link to your project.");
                 return false;
             }
         }
