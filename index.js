@@ -8,14 +8,14 @@ const { toNamespacedPath } = require('path');
 const questions = ["What is the title of your project?", 
 "What is your github Username?",
 "What is your email address?",
-"Please provide a description of your project:",
-"Please provide step-by-step installation instructions for your project.",
-"Please provide examples for use.",
+"Please provide a description of your project: ",
+"Please provide step-by-step installation instructions for your project: ",
+"Please provide details on how to use this application: ",
 "Which license will you use for your project?",
 "Would you like to allow other developers to contribute?",
-"Please provide guidelines for contributing.",
-"Please provide instructions on how to test the app.",
-"Please provide a link to your project:"];
+"Please provide guidelines for contributing: ",
+"Please provide instructions on how to test the app: ",
+"Please provide a link to your project: "];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
