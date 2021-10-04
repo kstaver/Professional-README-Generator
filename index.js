@@ -2,14 +2,13 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateMarkdown = require('./utils/generateMarkdown.js');
+const { toNamespacedPath } = require('path');
 
 // TODO: Create an array of questions for user input
 const questions = ["What is the title of your project?", 
 "What is your github Username?",
 "What is your email address?",
-"What is your project and what problem will it solve?",
-"Why did you create this project?",
-"How will someone use your project?",
+"Please provide a description of your project:",
 "Please provide step-by-step installation instructions for your project.",
 "Please provide examples for use.",
 "Which license will you use for your project?",
@@ -30,9 +29,9 @@ function writeToFile(fileName, data) {
 
 // TODO: Create a function to initialize app
 function init() {
-    const [title, username, email, solveProblem, whyCreate, howToUse, 
-    installInstruct, examples, license, confirm, contributors, tests, 
-    linkToProject] = questions;
+    const [title, username, email, description, 
+    installation, usage, license, confirm, contributorGuidelines, test, 
+    link] = questions;
 
     return inquirer.prompt([{
         type: "input",
@@ -49,10 +48,10 @@ function init() {
     },
     {
         type: "input",
-        name: "githubUsername",
+        name: "username",
         message: username,
-        validate: githubUsernameInput => {
-            if(githubUsernameInput){
+        validate: linkInput => {
+            if(linkInput){
                 return true;
             }else{
                 console.log("Please enter your github username.");
@@ -62,90 +61,62 @@ function init() {
     },
     {
         type: "input",
-        name: "gitHubEmail",
-        message: email,
-        validate: gitHubEmailInput => {
-            if(gitHubEmailInput){
+        name: "email",
+        message: email
+    },
+    {
+        type: "input",
+        name: "description",
+        message: description,
+        validate: description => {
+            if(description){
                 return true;
             }else{
-                console.log("Please enter your email address.");
-                return false;
+                console.log("Please enter a description about your project.");
             }
         }
     },
     {
         type: "input",
-        name: "solveWhatProblem",
-        message: solveProblem,
-        validate: solveWhatProblemInput => {
-            if(solveWhatProblemInput){
-                return true;
-            }else{
-                console.log("Please enter details regarding what your project is.");
-                return false;
-            }
-        }
-    },
-    {
-        type: "input",
-        name: "create",
-        message: whyCreate,
-        validate: createInput => {
-            if(createInput){
-                return true;
-            }else{
-                console.log("Please provide a description of why you made this project.");
-                return false;
-            }
-        }
-    },
-    {
-        type: "input",
-        name: "howTo",
-        message: howToUse,
-        validate: howToInput => {
-            if(howToInput){
-                return true;
-            }else{
-                console.log("Please provide information on how someone would use your project.");
-                return false;
-            }
-        }
-    },
-    {
-        type: "input",
-        name: "install",
-        message: installInstruct,
-        validate: installInput => {
-            if(installInput){
+        name: "installation",
+        message: installation,
+        validate: installation => {
+            if(installation){
                 return true;
             }else{
                 console.log("Please list step by step instructions on how to install your project.");
-                return false;
             }
         }
     },
     {
         type: "input",
-        name: "example",
-        message: examples,
-        validate: exampleInput => {
-            if(exampleInput){
+        name: "usage",
+        message: usage,
+        validate: usageInput => {
+            if(usageInput){
                 return true;
             }else{
                 console.log("Please provide instructions and examples for use.");
-                return false;
             }
         }
     },
     {
-        type: "input",
-        name: "licenses",
+        type: "list",
+        name: "license",
         message: license,
-        choices: ["agpl", "apache", "mit", "no license"] 
+        choices: [
+            "agpl-3.0",
+            "Apache License 2.0",
+            "mit", 
+            "gpl-3.0", 
+            "lgpl-3.0",
+            "mpl-2.0", 
+            "bsl-1.0", 
+            "unlicense"
+        ] 
     },
     {
-        type: "input",
+        type: "confirm",
         name: "confirm",
         message: confirm,
         default: true
@@ -153,40 +124,42 @@ function init() {
     {
         type: "input",
         name: "contributorGuidelines",
-        message: contributors,
+        message: contributorGuidelines,
+        when: ({confirm}) => {
+            if(confirm){
+                return true;
+            }else{
+                return false;
+            }
+        }
     },
     {
         type: "input",
         name: "test",
-        message: tests,
+        message: test,
         validate: testInput => {
             if(testInput){
                 return true;
             }else{
                 console.log("Please enter instructions for running tests.");
-                return false;
             }
         }
     },
     {
-        type: "input",
+        type: "link",
         name: "link",
-        message: linkToProject,
+        message: link,
         validate: linkInput => {
             if(linkInput){
                 return true;
             }else{
                 console.log("Please provide a link to your project.");
-                return false;
             }
         }
     }
 ])
-    inquirer.prompt(questions)
-    .then(function(userInput){
-        console.log(userInput);
-        writeToFile("README.md", generateMarkdown(userInput));
-    });
+    .then(data => generateMarkdown(data))
+    .then(pageLayout => writeToFile("README.md", pageLayout))
 };
 
 // Function call to initialize app
