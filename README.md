@@ -22,7 +22,7 @@
   Dynamically generates a professional README.md file by invoking the node index.js command and a user’s input using the Inquirer package.
   
   ## License
-  This project is covered under the mit [License](https://choosealicense.com/licenses/${license})
+  This project is covered under the MIT [License](https://choosealicense.com/licenses/${license}).
 
   ## Contribution
   Please pay me. 😊 Just kidding (or am I!?)! You can contribute by sprucing this project up so the generated README.md file looks even nicer than it currently does.
